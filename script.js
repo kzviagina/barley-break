@@ -3,7 +3,8 @@ var barleyBreak = {
     items: [],
     $reloadBtn: null,
     $container: null,
-    emptyCellPosition: this.ITEMS_COUNT,
+    emptyCellPosition: null,
+    canMove: [],
     init: function() {
         var self = this;
         this.fillItems();
@@ -12,7 +13,7 @@ var barleyBreak = {
         //Reload
         this.$reloadBtn = document.getElementById('btn-reload');
         this.$reloadBtn.addEventListener('click', function (e) {
-            e.preventDefault;
+            e.preventDefault();
             self.renderItems();
         }, false);
         
@@ -20,7 +21,7 @@ var barleyBreak = {
         this.$container.addEventListener('click', function (e) {
             var target = e.target;
             if (target.tagName.toLowerCase() === 'li') {
-                
+                self.moveItems(target);
             }
         }, false);
     },
@@ -29,6 +30,7 @@ var barleyBreak = {
             this.items.push(i + 1);
         }
         this.items.push(null);
+        this.emptyCellPosition = this.ITEMS_COUNT - 1;
     },
     randomizeItems: function(items) {
         for (var j, x, i = items.length - 1; i;) {
@@ -43,7 +45,6 @@ var barleyBreak = {
         var $fragment = document.createDocumentFragment();
         
         this.items = this.randomizeItems(this.items);
-        console.log();
         this.$container = document.getElementById('barley-break');
         
         for (var i = 0; i < this.items.length; i++) {
@@ -52,9 +53,29 @@ var barleyBreak = {
             $itemContainer.innerHTML = this.items[i];
             $fragment.appendChild($itemContainer);
         }
+        console.log(this.items);
         
         this.$container.innerHTML = '';
         this.$container.appendChild($fragment);
+    },
+    getItem: function (item) {
+        //get item in array
+        var itemId = parseInt(item.getAttribute('id'));
+        itemIndex = this.items.indexOf(itemId);
+        return itemIndex;
+    },
+    moveItems: function (item) {
+        var itemIndex = this.getItem(item);
+        //if item index can be moved
+        if (itemIndex === this.emptyCellPosition) {
+            var tempItemValue = this.items[itemIndex];
+            this.items[itemIndex] = this.items[this.emptyCellPosition];
+            this.items[this.emptyCellPosition] = tempItemValue;
+            console.log(this.items);
+            
+        } else {
+            alert('This item cant be moved!');
+        }
     }
 };
 
