@@ -1,19 +1,22 @@
 var barleyBreak = {
     ITEMS_COUNT: 15,
     items: [],
+    initialItems: [],
     $reloadBtn: null,
     $container: null,
     emptyCellPosition: null,
-    canMove: [],
     init: function() {
         var self = this;
         this.fillItems();
+        this.items = this.randomizeItems(this.items);
         this.renderItems();
         
         //Reload
         this.$reloadBtn = document.getElementById('btn-reload');
         this.$reloadBtn.addEventListener('click', function (e) {
             e.preventDefault();
+            self.fillItems();
+            self.randomizeItems(self.items);
             self.renderItems();
         }, false);
         
@@ -30,7 +33,8 @@ var barleyBreak = {
             this.items.push(i + 1);
         }
         this.items.push(null);
-        this.emptyCellPosition = this.ITEMS_COUNT - 1;
+        this.emptyCellPosition = this.ITEMS_COUNT;
+        this.initialItems = this.items.slice(0);
     },
     randomizeItems: function(items) {
         for (var j, x, i = items.length - 1; i;) {
@@ -44,7 +48,6 @@ var barleyBreak = {
     renderItems: function() {
         var $fragment = document.createDocumentFragment();
         
-        this.items = this.randomizeItems(this.items);
         this.$container = document.getElementById('barley-break');
         
         for (var i = 0; i < this.items.length; i++) {
@@ -53,7 +56,6 @@ var barleyBreak = {
             $itemContainer.innerHTML = this.items[i];
             $fragment.appendChild($itemContainer);
         }
-        console.log(this.items);
         
         this.$container.innerHTML = '';
         this.$container.appendChild($fragment);
@@ -67,14 +69,24 @@ var barleyBreak = {
     moveItems: function (item) {
         var itemIndex = this.getItem(item);
         //if item index can be moved
-        if (itemIndex === this.emptyCellPosition) {
+        console.log('emptyCellPosition ' + this.emptyCellPosition + ' itemIndex ' + itemIndex);
+        if (itemIndex === (this.emptyCellPosition - 1) || itemIndex === (this.emptyCellPosition + 1) || itemIndex === (this.emptyCellPosition - 4) || itemIndex === (this.emptyCellPosition + 4)) {
             var tempItemValue = this.items[itemIndex];
             this.items[itemIndex] = this.items[this.emptyCellPosition];
             this.items[this.emptyCellPosition] = tempItemValue;
-            console.log(this.items);
+            this.emptyCellPosition = itemIndex;
+            this.renderItems();
+            this.finishGame();
             
         } else {
             alert('This item cant be moved!');
+        }
+    },
+    finishGame: function () {
+        if (this.items.toString() === this.initialItems.toString()) {
+            alert('Congratulations! You successfully passed this game!');
+            this.randomizeItems(self.items);
+            this.renderItems();
         }
     }
 };
