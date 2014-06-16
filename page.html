@@ -6,12 +6,24 @@
         <script src="script.js"></script>
     </head>
     <body>
-        <div class="container clearfix">
-            <ul id="barley-break" class="box"></ul>
-        </div>
-        <div class="container clearfix">
-            <a href="#" id="btn-reload" class="btn">Reload</a>
-        </div>
+        <div id="page" class="container">
+            <div id="landing-page">
+                <div id="statistics"></div>
+                <a href="#" id="btn-start" class="btn btn-large">Start</a>
+            </div>
+            <div id="game-container" class="game-container" style="display: none;">
+                <div class="clearfix">
+                    <ul id="barley-break" class="box"></ul>
+                </div>            
+                <div class="actions clearfix">
+                    <a href="#" id="btn-reload" class="btn">Reload</a>
+                </div>
+                <div class="clearfix">
+                    <div id="step-counter" class="steps"></div>
+                    <div id="timer" class="timer"></div>
+                </div>
+            </div>
+        </div>        
         <script>
             window.onload = function () {
                 barleyBreak.init();

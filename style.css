@@ -17,6 +17,11 @@ html, body {
     clear: both;
 }
 .container {
+    width: 660px;
+    padding: 50px 0 0;
+    margin: 0 auto;
+}
+.game-container {
     width: 260px;
     margin: 0 auto;
     padding: 20px 0;
@@ -49,4 +54,28 @@ html, body {
     border-radius: 3px;
     color: #333;
     text-decoration: none;
+}
+.btn-large {
+    display: block;
+    padding: 8px 12px;
+    margin-top: 20px;
+    background: #FF4D2C;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    width: 80px;
+}
+
+.actions {
+    margin: 10px 0;
+}
+.steps {
+    float: right;
+    font-weight: 700;
+}
+h1 {
+    margin: 0 0 20px;
+}
+p {
+    margin: 10px 0;
 }
